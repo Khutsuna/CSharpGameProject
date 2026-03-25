@@ -23,5 +23,16 @@ namespace GameProject.Models.Characters
         {
             return Inventory.Any(item => item.IsKey);
         }
+
+        public bool UseHealingItem()
+        {
+            var item = Inventory.OfType<HealingItem>().FirstOrDefault(i => i.Quantity > 0);
+            if (item == null) return false;
+
+            Health = Math.Min(MaxHealth, Health + item.HealAmount);
+            item.Quantity--;
+            if (item.Quantity <= 0) Inventory.Remove(item);
+            return true;
+        }
     }
 }

@@ -1,7 +1,8 @@
-﻿using System;
+﻿using GameProject.GameplaySystems;
 using GameProject.Map;
 using GameProject.Models.Characters;
 using GameProject.Models.Items.Base;
+using System;
 
 namespace GameProject.Core
 {
@@ -120,6 +121,15 @@ No clear explanation is given.
 They knew something was wrong long before everything fell apart.");
                 Console.WriteLine("\n[Press any key...]");
                 Console.ReadKey();
+            }
+            else if(input == "3") {
+                Console.Clear();
+
+                var battle = new BattleSystem();
+                bool survived = battle.StartBattle(player, new Enemy("Infected Officer", 50, 8, 20));
+
+                if (!survived)
+                    Environment.Exit(0);
             }
         }
     }
