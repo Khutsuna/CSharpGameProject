@@ -10,6 +10,8 @@ namespace GameProject.Core
         Location currentLocation;
         Player player;
 
+        //HEYHEYHEEEY
+
         public void Start()
         {
             GameStart();
