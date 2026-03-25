@@ -11,17 +11,15 @@ namespace GameProject.Core
         Location currentLocation;
         Player player;
 
-        //HEYHEYHEEEY
-
         public void Start()
         {
             GameStart();
             GameLoop();
         }
 
-        private void GameStart()
+        public void GameStart()
         {
-            player = new Player("Survivor", 100, 10, 0);
+            player = new Player("Survivor", 80, 10, 0);
 
             currentLocation = new Location(
                 "Police Station Entrance",
@@ -31,7 +29,7 @@ namespace GameProject.Core
             );
         }
 
-        private void GameLoop()
+        public void GameLoop()
         {
             while (true)
             {
@@ -45,7 +43,7 @@ namespace GameProject.Core
             }
         }
 
-        private void GameInput(string input)
+        public void GameInput(string input)
         {
             switch (currentLocation.Type)
             {
@@ -129,7 +127,22 @@ They knew something was wrong long before everything fell apart.");
                 bool survived = battle.StartBattle(player, new Enemy("Infected Officer", 50, 8, 20));
 
                 if (!survived)
-                    Environment.Exit(0);
+                {
+                    Console.Clear();
+                    Console.WriteLine("YOU DIED");
+                }
+                else
+                {
+                    Console.Clear();
+                    Console.WriteLine("You found a key");
+                    Console.WriteLine("\n[Key added to inventory]");
+                    Console.WriteLine("\n[Press any key..]");
+                    Console.ReadKey();
+                    var key = new BaseItem("Main Lobby Key", 1);
+                    key.IsKey = true;
+                    player.AddItem(key);
+                }
+
             }
         }
     }

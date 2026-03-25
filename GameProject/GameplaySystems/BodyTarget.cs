@@ -7,6 +7,7 @@ namespace GameProject.GameplaySystems
     public enum BodyTarget
     {
         Torso,
-        Head
+        Head,
+        Arms
     }
 }
