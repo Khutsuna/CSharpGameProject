@@ -1,8 +1,10 @@
-﻿using GameProject.GameplaySystems;
+﻿using GameProject.CoreGame;
+using GameProject.CoreGame.Saves;
+using GameProject.GameplaySystems;
 using GameProject.Map;
 using GameProject.Models.Characters;
+using GameProject.Models.Enums;
 using GameProject.Models.Items.Base;
-using System;
 
 namespace GameProject.Core
 {
@@ -10,6 +12,7 @@ namespace GameProject.Core
     {
         Location currentLocation;
         Player player;
+        private readonly SaveSystem _saveSystem = new SaveSystem();
 
         public void Start()
         {
@@ -19,6 +22,20 @@ namespace GameProject.Core
 
         public void GameStart()
         {
+            if (_saveSystem.SaveExists())
+            {
+                Console.Clear();
+                Console.WriteLine("Save data found.");
+                Console.WriteLine("1. Continue");
+                Console.WriteLine("2. New Game");
+                string choice = Console.ReadLine()?.Trim();
+                if (choice == "1")
+                {
+                    LoadGame();
+                    return;
+                }
+            }
+
             player = new Player("Survivor", 80, 10, 0);
 
             currentLocation = new Location(
@@ -27,6 +44,42 @@ namespace GameProject.Core
                 false,
                 LocationType.Entrance
             );
+        }
+
+        public void LoadGame()
+        {
+            SaveData save = _saveSystem.Load();
+
+            player = new Player(save.PlayerName, save.PlayerMaxHealth, save.PlayerDamage, 0);
+            player.Health = save.PlayerHealth;
+
+            foreach (var item in save.Inventory.Where(i => i.HealAmount > 0))
+                player.AddItem(new HealingItem(item.Name, item.Quantity, item.HealAmount));
+
+            foreach (var item in save.Inventory.Where(i => i.HealAmount == 0))
+            {
+                var baseItem = new BaseItem(item.Name, item.Quantity);
+                baseItem.IsKey = item.IsKey;
+                player.AddItem(baseItem);
+            }
+
+            currentLocation = BuildLocation(save.CurrentLocation);
+        }
+
+        private Location BuildLocation(LocationType type)
+        {
+            switch (type)
+            {
+                case LocationType.Corridor:
+                    var corridor = new Location("Police Station Lobby", "You are in the front corridor.", false, LocationType.Corridor);
+                    return corridor;
+                case LocationType.MainLobby:
+                    var lobby = new Location("Main Lobby", "You are in the main lobby.", false, LocationType.MainLobby);
+                    lobby.Interactibles.Add(new Typewriter());
+                    return lobby;
+                default:
+                    return new Location("Police Station Entrance", "You stand outside the police station.", false, LocationType.Entrance);
+            }
         }
 
         public void GameLoop()
@@ -53,6 +106,10 @@ namespace GameProject.Core
 
                 case LocationType.Corridor:
                     GameInputCorridor(input);
+                    break;
+
+                case LocationType.MainLobby:
+                    GameInputMainLobby(input);
                     break;
             }
         }
@@ -87,6 +144,7 @@ namespace GameProject.Core
                         false,
                         LocationType.MainLobby
                     );
+                    currentLocation.Interactibles.Add(new Typewriter());
                 }
                 else
                 {
@@ -142,7 +200,29 @@ They knew something was wrong long before everything fell apart.");
                     key.IsKey = true;
                     player.AddItem(key);
                 }
+            }
+        }
 
+        public void GameInputMainLobby(string input)
+        {
+            if (input == "1")
+            {
+                Console.Clear();
+                Console.WriteLine("You examine the body. Nothing useful.");
+                Console.WriteLine("\n[Press any key...]");
+                Console.ReadKey();
+            }
+            else if (input == "2")
+            {
+                Console.Clear();
+                Console.WriteLine("You search the area but find nothing.");
+                Console.WriteLine("\n[Press any key...]");
+                Console.ReadKey();
+            }
+            else if (input == "3")
+            {
+                var typewriter = currentLocation.Interactibles.OfType<Typewriter>().FirstOrDefault();
+                typewriter?.Interact(player, currentLocation.Type);
             }
         }
     }

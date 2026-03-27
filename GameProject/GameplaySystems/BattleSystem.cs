@@ -1,8 +1,6 @@
 ﻿using GameProject.Models.Characters;
+using GameProject.Models.Enums;
 using GameProject.Models.Items.Base;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace GameProject.GameplaySystems
 {

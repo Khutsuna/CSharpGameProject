@@ -8,9 +8,9 @@ namespace GameProject.Models.Items.Base
     {
         public int HealAmount { get; set; }
 
-        public HealingItem(string name, int quantity, int HealAmount) : base(name, quantity)
+        public HealingItem(string name, int quantity, int healAmount) : base(name, quantity)
         {
-            HealAmount = HealAmount;
+            HealAmount = healAmount;
         }
     }
 }

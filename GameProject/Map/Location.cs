@@ -1,26 +1,15 @@
-﻿using System;
+﻿using GameProject.GameplaySystems;
+using GameProject.Models.Enums;
 
 namespace GameProject.Map
 {
-
-    public enum LocationType
-    {
-        Entrance,
-        Corridor,
-        MainLobby,
-        InterrogationRoom,
-        EvidenceRoom,
-        Armory,
-        ChiefOffice,
-        Records,
-        HoldingCells
-    }
     public class Location
     {
         public string Name { get; set; }
         public string Description { get; set; }
         public LocationType Type { get; set; }
         public bool IsLocked = false;
+        public List<IInteractible> Interactibles { get; set; }
 
         public Location(string name, string description, bool isLocked, LocationType type)
         {
@@ -28,6 +17,7 @@ namespace GameProject.Map
             Description = description;
             IsLocked = isLocked;
             Type = type;
+            Interactibles = new List<IInteractible>();
         }
 
         public void ShowMap()
@@ -67,6 +57,7 @@ namespace GameProject.Map
                 case LocationType.MainLobby:
                     Console.WriteLine("1. Interact with Body");
                     Console.WriteLine("2. Search Area");
+                    Console.WriteLine("3. Use Typewriter");
                     break;
             }
         }
@@ -180,12 +171,12 @@ namespace GameProject.Map
                 @"|                  |   -############                      ##############   |              |",
                 @"|                 =>---<=                                              =---=              |",
                 @"+------------------+   |                                               |   +--------------+",
-                @"                   |   |                  MAIN LOBBY                   |                   ",
+                @"                   |   |[BODY]            MAIN LOBBY                   |                   ",
                 @"+------------------+   |                                               |   +--------------+",
                 @"|                  >---<[DOOR]                                   [DOOR]>---=              |",
                 @"|  INTERROGATION   |   |                                               |   |   HOLDING    |",
                 @"|                  |   |                                               |   |    CELLS     |",
-                @"|                  |   |                                               |   |              |",
+                @"|                  |   |                                [TYPEWRITER]   |   |              |",
                 @"|[BODY]            +---+###########[DOOR]##############################+   +--------------+",
                 @"+------------------+                 ॥॥                                                    ",
                 @"                                     ॥॥                                                    ",

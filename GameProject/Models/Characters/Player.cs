@@ -1,5 +1,4 @@
 ﻿using GameProject.Models.Items.Base;
-using System.Runtime.CompilerServices;
 
 namespace GameProject.Models.Characters
 {

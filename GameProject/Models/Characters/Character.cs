@@ -1,6 +1,4 @@
-﻿using GameProject.Models.Items.Base;
-
-namespace GameProject.Models.Characters
+﻿namespace GameProject.Models.Characters
 {
     public class Character
     {
