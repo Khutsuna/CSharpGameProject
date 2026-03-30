@@ -86,8 +86,38 @@ namespace GameProject.Core
         {
             while (true)
             {
-
                 currentLocation.ShowMap();
+
+                string hpBar = "";
+                int filled = player.Health * 20 / player.MaxHealth;
+                for (int i = 0; i < 20; i++)
+                {
+                    if (i < filled)
+                        hpBar += "|";
+                    else
+                        hpBar += "-";
+                }
+
+                string hpText = player.Health + "/" + player.MaxHealth;
+                string fullBar = "HP [" + hpBar + "] " + hpText;
+
+                int savedLeft = Console.CursorLeft;
+                int savedTop = Console.CursorTop;
+
+                Console.SetCursorPosition(Console.WindowWidth - fullBar.Length - 1, 0);
+                Console.Write("HP [");
+                if (player.Health > player.MaxHealth / 2)
+                    Console.ForegroundColor = ConsoleColor.Green;
+                else if (player.Health > player.MaxHealth / 4)
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                else
+                    Console.ForegroundColor = ConsoleColor.Red;
+                Console.Write(hpBar);
+                Console.ResetColor();
+                Console.Write("] " + hpText);
+
+                Console.SetCursorPosition(savedLeft, savedTop);
+
                 currentLocation.ShowOptions();
 
                 string input = Console.ReadLine();
@@ -110,6 +140,9 @@ namespace GameProject.Core
 
                 case LocationType.MainLobby:
                     GameInputMainLobby(input);
+                    break;
+                case LocationType.LockerRoom:
+                    GameInputLockerRoom(input);
                     break;
             }
         }
@@ -201,6 +234,15 @@ They knew something was wrong long before everything fell apart.");
                     player.AddItem(key);
                 }
             }
+            else if (input == "4")
+            {
+                currentLocation = new Location(
+                    "Police Station Entrance",
+                    "You stand outside the police station. The building looms above you.",
+                    false,
+                    LocationType.Entrance
+                );
+            }
         }
 
         public void GameInputMainLobby(string input)
@@ -208,21 +250,133 @@ They knew something was wrong long before everything fell apart.");
             if (input == "1")
             {
                 Console.Clear();
-                Console.WriteLine("You examine the body. Nothing useful.");
-                Console.WriteLine("\n[Press any key...]");
+                Console.WriteLine(@"Interrogation Room Door
+
+The door won’t budge.
+
+Next to the handle is a small keypad, its worn buttons labeled 1 through 9. 
+Faint smudges cover the surface, as if it’s been used in a hurry... or too many times.
+The lock emits a dull red glow, waiting for input.
+
+A code is required.");
+                Console.WriteLine("\n[Press any key..]");
+                Console.ReadKey();
+                Console.Clear();
+                Console.Write("\nEnter keypad code: ");
+                string code = Console.ReadLine()?.Trim();
+
+                if (code == "1397")
+                {
+                    Console.WriteLine("\nThe keypad flashes green. The door unlocks.");
+                    Console.WriteLine("\n[Press any key..]");
+                    Console.ReadKey();
+                    currentLocation = new Location(
+                        "Interrogation Room",
+                        "You step into the Interrogation Room, awful smell hits you",
+                        false,
+                        LocationType.InterrogationRoom
+                    );
+                }   
+                else
+                    Console.WriteLine("\nIncorrect code.");
+
+                Console.WriteLine("\n[Press any key..]");
                 Console.ReadKey();
             }
             else if (input == "2")
             {
                 Console.Clear();
-                Console.WriteLine("You search the area but find nothing.");
+                Console.WriteLine("Door is locked.");
                 Console.WriteLine("\n[Press any key...]");
                 Console.ReadKey();
             }
             else if (input == "3")
             {
-                var typewriter = currentLocation.Interactibles.OfType<Typewriter>().FirstOrDefault();
-                typewriter?.Interact(player, currentLocation.Type);
+                Console.Clear();
+                Console.WriteLine(@"Changing Room
+
+You step inside—
+
+A figure lunges from the darkness.
+
+Rotting skin. Hollow eyes.
+
+No time to think.");
+                var battle = new BattleSystem();
+                bool survived = battle.StartBattle(player, new Enemy("Changing Officer", 50, 8, 20));
+                if (survived)
+                {
+                    currentLocation = new Location(
+                        "Locker Room",
+                        "After surviving the attack, you're left in what looks like a Changing room",
+                        false,
+                        LocationType.LockerRoom
+                    );
+                }
+            }
+            else if (input == "6")
+            {
+                currentLocation = new Location(
+                    "Police Station Lobby",
+                    "You are in the front corridor.",
+                    false,
+                    LocationType.Corridor
+                );
+            }
+        }
+
+        public void GameInputLockerRoom(string input)
+        {
+            if(input == "1")
+            {
+                Console.Clear();
+                Console.WriteLine(@"The body lies still now.
+
+Up close, the decay is impossible to ignore — grey skin stretched tight over bone, 
+veins dark and twisted beneath the surface.
+
+Its jaw hangs slightly open, teeth stained and broken.
+
+Whatever it once was… isn’t human anymore.");
+                Console.WriteLine("\n[Press any key..]");
+                Console.ReadKey();
+
+            }
+            else if (input == "2")
+            {
+                Console.Clear();
+                Console.WriteLine(@"Locker Room Bag
+
+A worn duffel bag rests on the bench, half-zipped.
+
+Inside, you find a phone.
+
+Still on.
+
+No lock.
+
+The screen lights up to a message thread between two officers.
+
+-'You still remember the code, right?'
+
+-'Yeah. Didn’t forget.'
+
+'Remember, Square clockwise. If Sergeant has to reset the code again because of us, we're f***ed. '
+
+There's the hint you were looking for but Square? Clockwise?. Interesting.");
+                Console.WriteLine("\n[Press any key..]");
+                Console.ReadKey();
+            }
+            else if (input == "3")
+            {
+                var lobby = new Location(
+                    "Main Lobby",
+                    "You are in the main lobby.",
+                    false,
+                    LocationType.MainLobby
+                );
+                lobby.Interactibles.Add(new Typewriter());
+                currentLocation = lobby;
             }
         }
     }

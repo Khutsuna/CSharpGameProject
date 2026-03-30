@@ -9,7 +9,7 @@
         EvidenceRoom,
         Armory,
         ChiefOffice,
-        Records,
+        LockerRoom,
         HoldingCells
     }
 }

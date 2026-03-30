@@ -35,29 +35,97 @@ namespace GameProject.Map
                 case LocationType.MainLobby:
                     MainLobby();
                     break;
+                case LocationType.InterrogationRoom:
+                    InterrogationRoom();
+                    break;
+                case LocationType.LockerRoom:
+                    LockerRoom();
+                    break;
             }
+
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine($"\n  {Name}");
+            Console.ResetColor();
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+            Console.WriteLine($"  {Description}");
+            Console.ResetColor();
         }
 
         public void ShowOptions()
         {
+            Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine("\nWhat do you want to do?");
+            Console.ResetColor();
 
             switch(Type)
             {
                 case LocationType.Entrance:
-                    Console.WriteLine("1. Enter the Police Department");
-                    Console.WriteLine("2. Look around");
+                    Console.ForegroundColor = ConsoleColor.DarkCyan;
+                    Console.Write("  1. ");
+                    Console.ResetColor();
+                    Console.WriteLine("Enter the Police Department");
+                    Console.ForegroundColor = ConsoleColor.DarkCyan;
+                    Console.Write("  2. ");
+                    Console.ResetColor();
+                    Console.WriteLine("Look around");
                     break;
                 case LocationType.Corridor:
-                    Console.WriteLine("1. Enter Main Lobby");
-                    Console.WriteLine("2. Check Desk");
-                    Console.WriteLine("3. Check Body");
-                    Console.WriteLine("4. Go Back");
+                    Console.ForegroundColor = ConsoleColor.DarkCyan;
+                    Console.Write("  1. ");
+                    Console.ResetColor();
+                    Console.WriteLine("Enter Main Lobby");
+                    Console.ForegroundColor = ConsoleColor.DarkCyan;
+                    Console.Write("  2. ");
+                    Console.ResetColor();
+                    Console.WriteLine("Check Desk");
+                    Console.ForegroundColor = ConsoleColor.DarkCyan;
+                    Console.Write("  3. ");
+                    Console.ResetColor();
+                    Console.WriteLine("Check Body");
+                    Console.ForegroundColor = ConsoleColor.DarkCyan;
+                    Console.Write("  4. ");
+                    Console.ResetColor();
+                    Console.WriteLine("Go Back");
                     break;
                 case LocationType.MainLobby:
-                    Console.WriteLine("1. Interact with Body");
-                    Console.WriteLine("2. Search Area");
-                    Console.WriteLine("3. Use Typewriter");
+                    Console.ForegroundColor = ConsoleColor.DarkCyan;
+                    Console.Write("  1. ");
+                    Console.ResetColor();
+                    Console.WriteLine("Try Door on the Left");
+                    Console.ForegroundColor = ConsoleColor.DarkCyan;
+                    Console.Write("  2. ");
+                    Console.ResetColor();
+                    Console.WriteLine("Try Door on the Right");
+                    Console.ForegroundColor = ConsoleColor.DarkCyan;
+                    Console.Write("  3. ");
+                    Console.ResetColor();
+                    Console.WriteLine("Try Door on Top");
+                    Console.ForegroundColor = ConsoleColor.DarkCyan;
+                    Console.Write("  4. ");
+                    Console.ResetColor();
+                    Console.WriteLine("Check the Window");
+                    Console.ForegroundColor = ConsoleColor.DarkCyan;
+                    Console.Write("  5. ");
+                    Console.ResetColor();
+                    Console.WriteLine("Use Typewriter");
+                    Console.ForegroundColor = ConsoleColor.DarkCyan;
+                    Console.Write("  6. ");
+                    Console.ResetColor();
+                    Console.WriteLine("Go Back");
+                    break;
+                case LocationType.LockerRoom:
+                    Console.ForegroundColor = ConsoleColor.DarkCyan;
+                    Console.Write("  1. ");
+                    Console.ResetColor();
+                    Console.WriteLine("Check the Body");
+                    Console.ForegroundColor = ConsoleColor.DarkCyan;
+                    Console.Write("  2. ");
+                    Console.ResetColor();
+                    Console.WriteLine("Check the Bag");
+                    Console.ForegroundColor = ConsoleColor.DarkCyan;
+                    Console.Write("  3. ");
+                    Console.ResetColor();
+                    Console.WriteLine("Go Back");
                     break;
             }
         }
@@ -109,7 +177,7 @@ namespace GameProject.Map
             string[] corridor =
             {
                 @"+---------------------------+------+------------------+------+---------------------------+ ",
-                @"|       EVIDENCE ROOM       |      |    BREAK ROOM    |      |          ARMORY           | ",
+                @"|                           |      |                  |      |                           | ",
                 @"|                           |      |                  |      |                           | ",
                 @"|                           |      |                  |      |                           | ",
                 @"|                           |      |                  |      |                           | ",
@@ -119,15 +187,15 @@ namespace GameProject.Map
                 @"                   |   |                                               |                   ",
                 @"+------------------+   |                                               |   +--------------+",
                 @"|                  =---<                                               >---=              |",
-                @"|  CHIEF'S OFFICE  |   |                                               |   |   RECORDS    |",
+                @"|                  |   |                                               |   |              |",
                 @"|                  |   -------------                      --------------   |              |",
                 @"|                 =>---<=                                              =---=              |",
                 @"+------------------+   |                                               |   +--------------+",
-                @"                   |   |                  MAIN LOBBY                   |                   ",
+                @"                   |   |                                               |                   ",
                 @"+------------------+   |                                               |   +--------------+",
                 @"|                  >---<                                               >---=              |",
-                @"|  INTERROGATION   |   |                                               |   |   HOLDING    |",
-                @"|                  |   |                                               |   |    CELLS     |",
+                @"|                  |   |                                               |   |              |",
+                @"|                  |   |                                               |   |              |",
                 @"|                  |   |                                               |   |              |",
                 @"|                  +---+-----------------------------------------------+   +--------------+",
                 @"+------------------+                 ॥॥                                                    ",
@@ -141,7 +209,7 @@ namespace GameProject.Map
                 @"                             ॥॥                   ॥॥                   ॥॥                  ",
                 @"                   +----------+------+    +---------+---------+    +----+----------+       ",
                 @"                   |                 |    |                   |    |               |       ",
-                @"                   |     ENTRANCE    |    |    RECEPTION      |    |  WAITING AREA |       ",
+                @"                   |     ENTRANCE    |    |                   |    |               |       ",
                 @"                   |                 |    |                   |    |               |       ",
                 @"                   +-----------------+    +-------------------+    +---------------+       "
             };
@@ -157,27 +225,27 @@ namespace GameProject.Map
             string[] mainLobby =
             {
                 @"+---------------------------+------+------------------+------+---------------------------+ ",
-                @"|       EVIDENCE ROOM       |      |    BREAK ROOM    |      |          ARMORY           | ",
+                @"|                           |      |                  |      |                           | ",
                 @"|                           |      |                  |      |                           | ",
                 @"|                           |      |                  |      |                           | ",
                 @"|                           |      |                  |      |                           | ",
                 @"+-----------------॥॥--------+      +-------॥॥---------+      +--------॥॥-----------------+ ",
                 @"                   |                       ॥॥                         ॥॥                   ",
-                @"                   |   |###############################################|                   ",
+                @"                   |   |#################[DOOR]########################|                   ",
                 @"                   |   |                                               |                   ",
                 @"+------------------+   |                                               |   +--------------+",
                 @"|                  =---=                                               =---=              |",
-                @"|  CHIEF'S OFFICE  |   |                                               |   |   RECORDS    |",
+                @"|                  |   |                                               |   |              |",
                 @"|                  |   -############                      ##############   |              |",
-                @"|                 =>---<=                                              =---=              |",
+                @"|                 =>---|                                              =---=              |",
                 @"+------------------+   |                                               |   +--------------+",
-                @"                   |   |[BODY]            MAIN LOBBY                   |                   ",
+                @"                   |   |                  MAIN LOBBY                   |                   ",
                 @"+------------------+   |                                               |   +--------------+",
                 @"|                  >---<[DOOR]                                   [DOOR]>---=              |",
-                @"|  INTERROGATION   |   |                                               |   |   HOLDING    |",
-                @"|                  |   |                                               |   |    CELLS     |",
+                @"|                  |   |                                               |   |              |",
+                @"|                  |   |[???]                                          |   |              |",
                 @"|                  |   |                                [TYPEWRITER]   |   |              |",
-                @"|[BODY]            +---+###########[DOOR]##############################+   +--------------+",
+                @"|                  +---+###########[DOOR]##############################+   +--------------+",
                 @"+------------------+                 ॥॥                                                    ",
                 @"                                     ॥॥                                                    ",
                 @"                   +-----------------------------------------------------------+           ",
@@ -189,7 +257,103 @@ namespace GameProject.Map
                 @"                             ॥॥                   ॥॥                   ॥॥                  ",
                 @"                   +----------+------+    +---------+---------+    +----+----------+       ",
                 @"                   |                 |    |                   |    |               |       ",
-                @"                   |     ENTRANCE    |    |    RECEPTION      |    |  WAITING AREA |       ",
+                @"                   |     ENTRANCE    |    |                   |    |               |       ",
+                @"                   |                 |    |                   |    |               |       ",
+                @"                   +-----------------+    +-------------------+    +---------------+       "
+            };
+
+            foreach (var line in mainLobby)
+            {
+                Console.WriteLine(line);
+            }
+        }
+
+        public void InterrogationRoom()
+        {
+            string[] mainLobby =
+            {
+                @"+---------------------------+------+------------------+------+---------------------------+ ",
+                @"|                           |      |                  |      |                           | ",
+                @"|                           |      |                  |      |                           | ",
+                @"|                           |      |                  |      |                           | ",
+                @"|                           |      |                  |      |                           | ",
+                @"+-----------------॥॥--------+      +-------॥॥---------+      +--------॥॥-----------------+ ",
+                @"                   |                       ॥॥                         ॥॥                   ",
+                @"                   |   |-----------------------------------------------|                   ",
+                @"                   |   |                                               |                   ",
+                @"+------------------+   |                                               |   +--------------+",
+                @"|                  =---=                                               =---=              |",
+                @"|                  |   |                                               |   |              |",
+                @"|                  |   -------------                      --------------   |              |",
+                @"|                 =>---|                                               =---=              |",
+                @"+------------------+   |                                               |   +--------------+",
+                @"                   |   |                  MAIN LOBBY                   |                   ",
+                @"+##################+   |                                               |   +--------------+",
+                @"#            [DOOR]>---<                                               >---=              |",
+                @"#  INTERROGATION   #   |                                               |   |              |",
+                @"#                  #   |                                               |   |              |",
+                @"#      [DESK]      #   |                                               |   |              |",
+                @"#    [BODY]        +---+-----------------------------------------------+   +--------------+",
+                @"+##################+                 ॥॥                                                    ",
+                @"                                     ॥॥                                                    ",
+                @"                   +-----------------------------------------------------------+           ",
+                @"                   |                                                           |           ",
+                @"                   |                     FRONT CORRIDOR                        |           ",
+                @"                   |                                                           |           ",
+                @"                   |                                                           |           ",
+                @"                   +-----------------------------------------------------------+          ",
+                @"                             ॥॥                   ॥॥                   ॥॥                  ",
+                @"                   +----------+------+    +---------+---------+    +----+----------+       ",
+                @"                   |                 |    |                   |    |               |       ",
+                @"                   |     ENTRANCE    |    |                   |    |               |       ",
+                @"                   |                 |    |                   |    |               |       ",
+                @"                   +-----------------+    +-------------------+    +---------------+       "
+            };
+
+            foreach (var line in mainLobby)
+            {
+                Console.WriteLine(line);
+            }
+        }
+
+        public void LockerRoom()
+        {
+            string[] mainLobby =
+            {
+                @"+---------------------------+------+##################+------+---------------------------+ ",
+                @"|                           |      #]           [BAG][#      |                           | ",
+                @"|                           |      #]     LOCKER     [#      |                           | ",
+                @"|                           |      #]                [#      |                           | ",
+                @"|                           |      #] [BODY]         [#      |                           | ",
+                @"+-----------------॥॥--------+      +#######॥॥#########+      +--------॥॥-----------------+ ",
+                @"                   |                       ॥॥                         ॥॥                   ",
+                @"                   |   |-----------------------------------------------|                   ",
+                @"                   |   |                                               |                   ",
+                @"+------------------+   |                                               |   +--------------+",
+                @"|                  =---=                                               =---=              |",
+                @"|                  |   |                                               |   |              |",
+                @"|                  |   -------------                      --------------   |              |",
+                @"|                 =>---|                                               =---=              |",
+                @"+------------------+   |                                               |   +--------------+",
+                @"                   |   |                  MAIN LOBBY                   |                   ",
+                @"+------------------+   |                                               |   +--------------+",
+                @"|                  >---<                                               >---=              |",
+                @"|  INTERROGATION   |   |                                               |   |              |",
+                @"|                  |   |                                               |   |              |",
+                @"|                  |   |                                               |   |              |",
+                @"|                  +---+-----------------------------------------------+   +--------------+",
+                @"+------------------+                 ॥॥                                                    ",
+                @"                                     ॥॥                                                    ",
+                @"                   +-----------------------------------------------------------+           ",
+                @"                   |                                                           |           ",
+                @"                   |                     FRONT CORRIDOR                        |           ",
+                @"                   |                                                           |           ",
+                @"                   |                                                           |           ",
+                @"                   +-----------------------------------------------------------+          ",
+                @"                             ॥॥                   ॥॥                   ॥॥                  ",
+                @"                   +----------+------+    +---------+---------+    +----+----------+       ",
+                @"                   |                 |    |                   |    |               |       ",
+                @"                   |     ENTRANCE    |    |                   |    |               |       ",
                 @"                   |                 |    |                   |    |               |       ",
                 @"                   +-----------------+    +-------------------+    +---------------+       "
             };
