@@ -315,6 +315,11 @@ Nothing useful remains inside.");
                 Console.WriteLine("\n[Press any key...]");
                 Console.ReadKey();
             }
+            else if (input == "6")
+            {
+                var typewriter = Interactibles.OfType<Typewriter>().FirstOrDefault();
+                typewriter?.Interact(player, Type);
+            }
             else if (input == "7")
                 return new Location("Police Station Lobby", "You are in the front corridor.", false, LocationType.Corridor);
             return null;

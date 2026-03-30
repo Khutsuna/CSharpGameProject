@@ -28,11 +28,26 @@ namespace GameProject.Core
                 Console.WriteLine("Save data found.");
                 Console.WriteLine("1. Continue");
                 Console.WriteLine("2. New Game");
+                Console.WriteLine("3. Delete Save Data");
                 string choice = Console.ReadLine()?.Trim();
                 if (choice == "1")
                 {
                     LoadGame();
                     return;
+                }
+                if (choice == "3")  
+                {
+                    Console.Write("\nAre you sure? All progress will be lost.");
+                    Console.WriteLine("1. Confirm");
+                    Console.WriteLine("2. Cancel");
+                    string confirm = Console.ReadLine()?.Trim().ToLower();
+                    if (confirm == "1")
+                    {
+                        _saveSystem.DeleteSave();
+                        Console.WriteLine("Save data deleted.");
+                        Console.WriteLine("\n[Press any key...]");
+                        Console.ReadKey();
+                    }
                 }
             }
 
